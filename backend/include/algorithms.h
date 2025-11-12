@@ -17,4 +17,14 @@ std::pair<double,std::vector<int>>tspDP(const std::vector<std::vector<double>>& 
 std::pair<double,std::vector<int>>greedyTSP(const Graph& g,int start,const std::vector<int>& mustVisit);
 void twoOptImprovement(std::vector<int>& tour,const std::vector<std::vector<double>>& dist);
 
+struct Edge{
+    int u,v;
+    double weight;
+    bool operator<(const Edge& other) const;
+};
+
+std::vector<Edge> kruskalMST(std::vector<Edge>& edges,int n);
+std::vector<int> mstToTour(const std::vector<Edge>& mst,int n,int start);
+
 #endif
+
