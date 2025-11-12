@@ -14,9 +14,7 @@ struct TouristPreferences {
     bool preferPopular;
     int startLocationId;
     
-    TouristPreferences():maxBudget(10000),maxTime(8),
-                           maxDistance(100),preferPopular(true),
-                           startLocationId(0) {}
+    TouristPreferences():maxBudget(10000),maxTime(8),maxDistance(100),preferPopular(true),startLocationId(0) {}
 };
 
 struct RouteResult {
@@ -30,11 +28,9 @@ struct RouteResult {
 class RouteOptimizer {
 private:
     Graph graph;
-    
     std::vector<int> filterAttractions(const TouristPreferences& prefs);
     double calculateRouteScore(const std::vector<int>& route,const TouristPreferences& prefs);
     RouteResult evaluateRoute(const std::vector<int>& route);
-    
 public:
     RouteOptimizer() {}
     void setGraph(const Graph& g) 
