@@ -55,7 +55,7 @@ RouteResult RouteOptimizer::computeOptimalRoute(const vector<int>& locations,
     
     // Handle edge cases
     if (locations.empty()) {
-        cout << "[RouteOptimizer] Error: No locations provided" << endl;
+        // cout << "[RouteOptimizer] Error: No locations provided" << endl;
         return result;
     }
     
@@ -75,15 +75,15 @@ RouteResult RouteOptimizer::computeOptimalRoute(const vector<int>& locations,
         // ========================================
         
         int n = locations.size();
-        cout << "[RouteOptimizer] Computing flexible order for " 
-                  << n << " locations..." << endl;
+        // cout << "[RouteOptimizer] Computing flexible order for " 
+                //   << n << " locations..." << endl;
         
         // Build distance matrix
         vector<vector<double>> distMatrix = buildDistanceMatrix(locations);
         
         if (n <= 10) {
             // Small instance: Use exact TSP DP
-            cout << "[Algorithm] TSP Dynamic Programming (Exact)" << endl;
+            // cout << "[Algorithm] TSP Dynamic Programming (Exact)" << endl;
             algorithm = "TSP DP (Exact)";
             
             auto tspResult = tspDP(distMatrix);
@@ -96,7 +96,7 @@ RouteResult RouteOptimizer::computeOptimalRoute(const vector<int>& locations,
             
         } else if (n <= 15) {
             // Medium instance: Compare DP vs MST
-            cout << "[Algorithm] Comparing TSP DP vs MST Approximation..." << endl;
+            // cout << "[Algorithm] Comparing TSP DP vs MST Approximation..." << endl;
             
             auto dpResult = tspDP(distMatrix);
             auto mstResult = tspMSTApproximation(graph, locations);
@@ -117,7 +117,7 @@ RouteResult RouteOptimizer::computeOptimalRoute(const vector<int>& locations,
             
         } else {
             // Large instance: Use MST approximation
-            cout << "[Algorithm] MST-based Approximation (n > 15)" << endl;
+            // cout << "[Algorithm] MST-based Approximation (n > 15)" << endl;
             algorithm = "MST + 2-Opt + Greedy";
             
             auto mstResult = tspMSTApproximation(graph, locations);
@@ -134,8 +134,8 @@ RouteResult RouteOptimizer::computeOptimalRoute(const vector<int>& locations,
         // FIXED ORDER: Use Dijkstra/A* Hybrid
         // ========================================
         
-        cout << "[RouteOptimizer] Computing fixed order route..." << endl;
-        cout << "[Algorithm] Dijkstra/A* Hybrid" << endl;
+        // cout << "[RouteOptimizer] Computing fixed order route..." << endl;
+        // cout << "[Algorithm] Dijkstra/A* Hybrid" << endl;
         algorithm = "Dijkstra + A*";
         
         auto orderedResult = computeOrderedRoute(graph, locations);
@@ -144,17 +144,17 @@ RouteResult RouteOptimizer::computeOptimalRoute(const vector<int>& locations,
     
     // Evaluate and return result
     if (route.empty()) {
-        cout << "[RouteOptimizer] Warning: No valid route found" << endl;
+        // cout << "[RouteOptimizer] Warning: No valid route found" << endl;
         result.algorithm = algorithm + " (Failed)";
         return result;
     }
     
     result = evaluateRoute(route, algorithm);
     
-    cout << "[RouteOptimizer] Route computed successfully" << endl;
-    cout << "  - Locations: " << result.attractionIds.size() << endl;
-    cout << "  - Total Time: " << result.totalTime << " minutes" << endl;
-    cout << "  - Algorithm: " << result.algorithm << endl;
+    // cout << "[RouteOptimizer] Route computed successfully" << endl;
+    // cout << "  - Locations: " << result.attractionIds.size() << endl;
+    // cout << "  - Total Time: " << result.totalTime << " minutes" << endl;
+    // cout << "  - Algorithm: " << result.algorithm << endl;
     
     return result;
 }

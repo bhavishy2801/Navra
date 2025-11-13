@@ -107,7 +107,7 @@ void Graph::loadFromCSV(const string& attractionsFile, const string& roadsFile) 
         id++;
     }
     attFile.close();
-    cout << "Loaded " << id << " attractions." << endl;
+    // cout << "Loaded " << id << " attractions." << endl;
 
     // Load roads
     ifstream roadsFileStream(roadsFile);
@@ -145,5 +145,5 @@ void Graph::loadFromCSV(const string& attractionsFile, const string& roadsFile) 
         }
     }
     roadsFileStream.close();
-    cout << "Loaded " << edgeCount << " roads." << endl;
+    // cout << "Loaded " << edgeCount << " roads." << endl;
 }
