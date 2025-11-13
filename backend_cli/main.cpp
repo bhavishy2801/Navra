@@ -27,8 +27,6 @@ void displayLocations(const Graph& g) {
     cout << "\n--- Available Locations ---" << endl;
     
     vector<int> ids = g.getAllAttractionIds();
-    
-    // Sort IDs in ascending order
     sort(ids.begin(), ids.end());
     
     for (int id : ids) {
@@ -114,7 +112,26 @@ int main() {
             cout << "No locations selected." << endl;
             continue;
         }
-        
+
+        // --- Connectivity Check Using DSU ----
+        DSU* dsu = graph.getDSU();
+        int root = dsu->find(locations[0]);
+
+        bool ok = true;
+        for (int id : locations) {
+            if (dsu->find(id) != root) {
+                ok = false;
+                break;
+            }
+        }
+
+        if (!ok) {
+            cout << "\n[ERROR] Selected locations are NOT reachable from each other." << endl;
+            cout << "Please choose locations inside the same connected component.\n\n";
+            continue;
+        }
+        // --------------------------------------
+
         auto startTime = high_resolution_clock::now();
         
         bool flexibleOrder = (choice == 1);
