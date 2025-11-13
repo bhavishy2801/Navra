@@ -6,9 +6,10 @@
 #include <utility>
 #include <unordered_set>
 
-std::vector<double> dijkstra(const Graph& g,int start);
-std::pair<std::vector<double>,std::vector<int>>dijkstraWithPath(const Graph& g,int start);
-std::vector<int> reconstructPath(const std::vector<int>& parent,int start,int end);
+// Dijkstra's algorithm - O(E log V)
+std::vector<double> dijkstra(const Graph& g, int start);
+std::pair<std::vector<double>, std::vector<int>> dijkstraWithPath(const Graph& g, int start);
+std::vector<int> reconstructPath(const std::vector<int>& parent, int start, int end);
 
 std::vector<int> aStarPath(const Graph& g,int start,int goal);
 double haversine(double lat1,double lon1,double lat2,double lon2);
@@ -23,15 +24,8 @@ struct Edge{
     bool operator<(const Edge& other) const;
 };
 
-std::vector<Edge> kruskalMST(std::vector<Edge>& edges, int n);
-std::vector<int> mstToTour(const std::vector<Edge>& mst, int n, int start);
-
-// Route computation for ordered list
-std::pair<double, std::vector<int>> computeOrderedRoute(const Graph& g, const std::vector<int>& orderedList);
-
-// Smart algorithm selector
-std::pair<double, std::vector<int>> computeOptimalRoute(const Graph& g, const std::vector<int>& locations, bool flexibleOrder);
+std::vector<Edge> kruskalMST(std::vector<Edge>& edges,int n);
+std::vector<int> mstToTour(const std::vector<Edge>& mst,int n,int start);
 
 #endif
-
 

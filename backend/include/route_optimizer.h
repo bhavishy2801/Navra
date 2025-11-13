@@ -4,38 +4,32 @@
 #include "graph.h"
 #include <vector>
 #include <string>
-#include <unordered_set>
-
-struct TouristPreferences {
-    std::vector<std::string> interests;
-    double maxBudget;
-    double maxTime;
-    double maxDistance;
-    bool preferPopular;
-    int startLocationId;
-    
-    TouristPreferences():maxBudget(10000),maxTime(8),maxDistance(100),preferPopular(true),startLocationId(0) {}
-};
 
 struct RouteResult {
     std::vector<int> attractionIds;
-    double totalDistance;
     double totalTime;
-    double totalCost;
-    double score;
+    std::string algorithm;
+    
+    RouteResult() : totalTime(0), algorithm("") {}
 };
 
 class RouteOptimizer {
 private:
     Graph graph;
-    std::vector<int> filterAttractions(const TouristPreferences& prefs);
-    double calculateRouteScore(const std::vector<int>& route,const TouristPreferences& prefs);
-    RouteResult evaluateRoute(const std::vector<int>& route);
+    
+    // Build distance matrix for TSP
+    std::vector<std::vector<double>> buildDistanceMatrix(const std::vector<int>& locations);
+
 public:
     RouteOptimizer() {}
-    void setGraph(const Graph& g) 
-    {graph=g;}
-    std::vector<RouteResult> recommendRoutes(const TouristPreferences& prefs,int numRoutes=3);
+    
+    void setGraph(const Graph& g) { graph = g; }
+    
+    // Compute optimal route (main function)
+    RouteResult computeOptimalRoute(const std::vector<int>& locations, bool flexibleOrder);
+    
+    // Helper to evaluate and construct route result
+    RouteResult evaluateRoute(const std::vector<int>& route, const std::string& algorithmName);
 };
 
 #endif
