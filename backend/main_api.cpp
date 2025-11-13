@@ -29,9 +29,62 @@ int main() {
     vector<int> locations;
     for (const string& name : names) {
         int id = graph.getIdByName(name);
-        if (id != -1) {
-            locations.push_back(id);
+        locations.push_back(id); // Keep ID as is, even if -1
+    }
+
+    // -----------------------------------------------
+    // 0. CHECK INVALID IDS (ID = -1)
+    // -----------------------------------------------
+    bool hasInvalid = false;
+    for (int id : locations) {
+        if (id == -1) {
+            hasInvalid = true;
+            break;
         }
+    }
+
+    // Invalid multi-location request → reject
+    if (hasInvalid && locations.size() > 1) {
+        json error;
+        error["error"] = "Selected locations are NOT reachable from each other";
+        error["success"] = false;
+        cout << error.dump();
+        return 1;
+    }
+    // Single invalid node is allowed (DSU-T4)
+    // -----------------------------------------------
+
+    // -----------------------------------------------
+    // 1. DSU CONNECTIVITY CHECK (only when valid)
+    // -----------------------------------------------
+    if (!hasInvalid) {
+        DSU* dsu = graph.getDSU();
+        int root = dsu->find(locations[0]);
+
+        bool ok = true;
+        for (int id : locations) {
+            if (dsu->find(id) != root) {
+                ok = false;
+                break;
+            }
+        }
+
+        if (!ok) {
+            json error;
+            error["error"] = "Selected locations are NOT reachable from each other";
+            error["success"] = false;
+            cout << error.dump();
+            return 1;
+        }
+    }
+    // -----------------------------------------------
+
+    if (locations.empty()) {
+        json error;
+        error["error"] = "No locations selected";
+        error["success"] = false;
+        cout << error.dump();
+        return 1;
     }
 
     bool flexibleOrder = (choice == 1);
@@ -42,6 +95,7 @@ int main() {
     RouteResult result = optimizer.computeOptimalRoute(locations, flexibleOrder);
 
     json out;
+    out["success"] = true;
     out["algorithm"] = result.algorithm;
     out["totalTime"] = result.totalTime;
     out["routeIds"] = result.attractionIds;
@@ -52,6 +106,7 @@ int main() {
     }
 
     out["routeNames"] = routeNames;
+    out["stopCount"] = result.attractionIds.size();
 
     cout << out.dump();
 

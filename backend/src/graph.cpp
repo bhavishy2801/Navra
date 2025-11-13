@@ -7,88 +7,82 @@
 
 using namespace std;
 
-#ifndef M_PI
-#define M_PI 3.14159265358979323846
-#endif
-
-Graph::Graph() : numVertices(0) {}
+Graph::Graph() : numVertices(0), dsu(nullptr) {}
 
 void Graph::addAttraction(const Attraction& attr) {
     attractions[attr.id] = attr;
     nameToId[attr.name] = attr.id;
+
     if (adjList.find(attr.id) == adjList.end()) {
-        adjList[attr.id] = vector<pair<int, double>>();
-        numVertices++;
+        adjList[attr.id] = vector<pair<int,double>>();
     }
 }
 
 void Graph::addEdge(int from, int to, double weight) {
-    adjList[from].push_back(make_pair(to, weight));
-    adjList[to].push_back(make_pair(from, weight)); // Undirected
+    adjList[from].push_back({to, weight});
+    adjList[to].push_back({from, weight});
 }
 
-vector<pair<int, double>> Graph::getNeighbors(int nodeId) const {
-    auto it = adjList.find(nodeId);
-    if (it != adjList.end()) {
-        return it->second;
-    }
-    return vector<pair<int, double>>();
+vector<pair<int,double>> Graph::getNeighbors(int id) const {
+    if (adjList.count(id)) return adjList.at(id);
+    return {};
 }
 
 Attraction Graph::getAttraction(int id) const {
-    auto it = attractions.find(id);
-    if (it != attractions.end()) {
-        return it->second;
-    }
+    if (attractions.count(id)) return attractions.at(id);
     return Attraction();
 }
 
 double Graph::getEdgeWeight(int from, int to) const {
-    auto neighbors = getNeighbors(from);
-    for (size_t i = 0; i < neighbors.size(); i++) {
-        if (neighbors[i].first == to) {
-            return neighbors[i].second;
-        }
+    if (!adjList.count(from)) return numeric_limits<double>::infinity();
+    for (auto& p : adjList.at(from)) {
+        if (p.first == to) return p.second;
     }
     return numeric_limits<double>::infinity();
 }
 
-vector<int> Graph::getAllAttractionIds() const {
-    vector<int> ids;
-    for (auto it = attractions.begin(); it != attractions.end(); ++it) {
-        ids.push_back(it->first);
-    }
-    return ids;
-}
-
-bool Graph::hasAttraction(int id) const {
-    return attractions.find(id) != attractions.end();
-}
-
 int Graph::getIdByName(const string& name) const {
     auto it = nameToId.find(name);
-    if (it != nameToId.end()) {
-        return it->second;
-    }
-    return -1;
+    if (it == nameToId.end()) return -1;
+    return it->second;
 }
 
-void Graph::loadFromCSV(const string& attractionsFile, const string& roadsFile) {
-    // Load attractions
-    ifstream attFile(attractionsFile);
-    if (!attFile.is_open()) {
-        cerr << "Error: Cannot open " << attractionsFile << endl;
-        return;
+vector<int> Graph::getAllAttractionIds() const {
+    vector<int> v;
+    for (auto& p : attractions) v.push_back(p.first);
+    return v;
+}
+
+void Graph::buildDSU() {
+
+    if (dsu) delete dsu;
+
+    int maxId = 0;
+    for (auto& p : attractions)
+        maxId = max(maxId, p.first);
+
+    dsu = new DSU(maxId + 1);
+
+    for (auto& entry : adjList) {
+        int u = entry.first;
+        for (auto &p : entry.second) {
+            int v = p.first;
+            dsu->unite(u, v);
+        }
     }
+}
+
+void Graph::loadFromCSV(const string& attFile, const string& roadsFile) {
+    ifstream f(attFile);
 
     string line;
-    getline(attFile, line); // Skip header
+    getline(f, line);
     int id = 0;
 
-    while (getline(attFile, line)) {
+    while (getline(f, line)) {
         if (line.empty()) continue;
-        
         stringstream ss(line);
+
         string name, category;
         double rating, duration, fee, lat, lon;
         int pop;
@@ -102,48 +96,37 @@ void Graph::loadFromCSV(const string& attractionsFile, const string& roadsFile) 
         ss >> lat; ss.ignore();
         ss >> lon;
 
-        Attraction attr(id, name, category, lat, lon, duration, rating, fee, pop);
-        addAttraction(attr);
+        Attraction at(id, name, category, lat, lon, duration, rating, fee, pop);
+        addAttraction(at);
         id++;
     }
-    attFile.close();
-    // cout << "Loaded " << id << " attractions." << endl;
+    f.close();
 
-    // Load roads
-    ifstream roadsFileStream(roadsFile);
-    if (!roadsFileStream.is_open()) {
-        cerr << "Error: Cannot open " << roadsFile << endl;
-        return;
-    }
+    ifstream fr(roadsFile);
+    getline(fr, line);
 
-    getline(roadsFileStream, line); // Skip header
-    int edgeCount = 0;
-
-    while (getline(roadsFileStream, line)) {
+    while (getline(fr, line)) {
         if (line.empty()) continue;
-        
+
         stringstream ss(line);
-        string from, to;
-        double time;
+        string A, B;
+        double w;
 
-        getline(ss, from, ',');
-        getline(ss, to, ',');
-        ss >> time;
+        getline(ss, A, ',');
+        getline(ss, B, ',');
+        ss >> w;
 
-        // Remove \r if present
-        if (!from.empty() && from[from.length()-1] == '\r') 
-            from = from.substr(0, from.length()-1);
-        if (!to.empty() && to[to.length()-1] == '\r') 
-            to = to.substr(0, to.length()-1);
+        if (!A.empty() && A.back() == '\r') A.pop_back();
+        if (!B.empty() && B.back() == '\r') B.pop_back();
 
-        int fromId = getIdByName(from);
-        int toId = getIdByName(to);
+        int u = getIdByName(A);
+        int v = getIdByName(B);
 
-        if (fromId != -1 && toId != -1) {
-            addEdge(fromId, toId, time);
-            edgeCount++;
+        if (u != -1 && v != -1) {
+            addEdge(u, v, w);
         }
     }
-    roadsFileStream.close();
-    // cout << "Loaded " << edgeCount << " roads." << endl;
+    fr.close();
+
+    buildDSU();
 }

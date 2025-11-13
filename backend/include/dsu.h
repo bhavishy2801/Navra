@@ -12,6 +12,7 @@ public:
     DSU(int n);
     int find(int x);
     bool unite(int x, int y);
+    int size() const { return parent.size(); }
 };
 
 #endif
