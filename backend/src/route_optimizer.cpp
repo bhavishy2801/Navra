@@ -3,6 +3,8 @@
 #include <limits>
 #include <iostream>
 
+using namespace std;
+
 // Build distance matrix using Dijkstra for all pairs
 vector<vector<double>> RouteOptimizer::buildDistanceMatrix(
     const vector<int>& locations) {

@@ -3,7 +3,6 @@
 #include <vector>
 #include <limits>
 #include <algorithm>
-
 using namespace std;
 
 struct Node {
