@@ -95,7 +95,7 @@ const About = () => {
           <Github size={48} />
           <h2>Open Source Project</h2>
           <p>This project is available for educational purposes</p>
-          <a href="https://github.com" className="github-btn" target="_blank" rel="noopener noreferrer">
+          <a href="https://github.com/bhavishy2801/Navra" className="github-btn" target="_blank" rel="noopener noreferrer">
             View on GitHub
           </a>
         </motion.div>
