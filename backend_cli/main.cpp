@@ -179,7 +179,7 @@ int main() {
         bool flexibleOrder = (choice == 1);
 
         if (flexibleOrder) {
-            cout << "\n[INFO] Running: Traveling Salesman Problem (TSP) — Optimal Reordering\n";
+            cout << "\n[INFO] Running: Traveling Salesman Problem (TSP) - Optimal Reordering\n";
         } else {
             cout << "\n[INFO] Running: Fixed Order Route using Dijkstra's Shortest Path Algorithm\n";
         }
