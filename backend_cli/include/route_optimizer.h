@@ -6,8 +6,8 @@
 #include <string>
 
 struct RouteResult {
-    std::vector<int> attractionIds;   // only selected stops in order
-    std::vector<int> fullPath;        // FULL actual path including intermediate nodes
+    std::vector<int> attractionIds;
+    std::vector<int> fullPath;
     double totalTime = 0.0;
     std::string algorithm;
 };
@@ -15,13 +15,10 @@ struct RouteResult {
 class RouteOptimizer {
 private:
     Graph graph;
-
 public:
     RouteOptimizer() = default;
-    void setGraph(const Graph& g) { graph = g; }
-
+    void setGraph(const Graph& g){ graph = g;}
     RouteResult computeOptimalRoute(const std::vector<int>& locations, bool flexibleOrder);
     RouteResult computeFullGraphRoute();
 };
-
-#endif // ROUTE_OPTIMIZER_H
+#endif
