@@ -1,8 +1,7 @@
 import React from 'react';
 import { AlertCircle, X } from 'lucide-react';
 import '../styles/error.css';
-
-const ErrorDisplay = ({ message, onDismiss }) => {
+const ErrorDisplay=({ message, onDismiss }) => {
   return (
     <div className="error-wrapper">
       <div className="error-box">
@@ -20,5 +19,4 @@ const ErrorDisplay = ({ message, onDismiss }) => {
     </div>
   );
 };
-
 export default ErrorDisplay;

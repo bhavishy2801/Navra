@@ -1,6 +1,5 @@
 import React from 'react';
 import { Cpu, Zap, CheckCircle } from 'lucide-react';
-
 const AlgorithmCard = ({ algorithm }) => {
   return (
     <div className="algorithm-card">
@@ -8,9 +7,7 @@ const AlgorithmCard = ({ algorithm }) => {
         <Cpu size={28} />
         <h3>{algorithm.name}</h3>
       </div>
-      
       <p className="algorithm-description">{algorithm.description}</p>
-      
       <div className="algorithm-details">
         <div className="detail-item">
           <Zap size={18} />
@@ -19,7 +16,6 @@ const AlgorithmCard = ({ algorithm }) => {
             <span className="detail-value">{algorithm.complexity}</span>
           </div>
         </div>
-        
         <div className="detail-item">
           <CheckCircle size={18} />
           <div>
@@ -28,7 +24,6 @@ const AlgorithmCard = ({ algorithm }) => {
           </div>
         </div>
       </div>
-
       <div className="algorithm-features">
         <h4>Features:</h4>
         <ul>
@@ -40,5 +35,4 @@ const AlgorithmCard = ({ algorithm }) => {
     </div>
   );
 };
-
 export default AlgorithmCard;

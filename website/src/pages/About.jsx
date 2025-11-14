@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Code, Layers, Zap, Github } from 'lucide-react';
 import '../styles/about.css';
-
 const About = () => {
   return (
     <div className="about">
@@ -10,7 +9,6 @@ const About = () => {
         <h1>About NAVRA</h1>
         <p>Campus route optimization for IIT Jodhpur</p>
       </div>
-
       <div className="about-content">
         <motion.section
           className="about-section"
@@ -26,7 +24,6 @@ const About = () => {
             MST to provide optimal routes across 18 campus locations.
           </p>
         </motion.section>
-
         <div className="tech-grid">
           {[
             { 
@@ -63,7 +60,6 @@ const About = () => {
             </motion.div>
           ))}
         </div>
-
         <motion.section
           className="features-section"
           initial={{ opacity: 0, y: 20 }}
@@ -90,7 +86,6 @@ const About = () => {
             </div>
           </div>
         </motion.section>
-
         <motion.div
           className="cta-section"
           initial={{ opacity: 0 }}
@@ -108,5 +103,4 @@ const About = () => {
     </div>
   );
 };
-
 export default About;

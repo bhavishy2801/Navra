@@ -2,7 +2,6 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Cpu, Zap, Target, GitBranch, Network } from 'lucide-react';
 import '../styles/algorithms.css';
-
 const Algorithms = () => {
   const algos = [
     {
@@ -38,14 +37,12 @@ const Algorithms = () => {
       features: ['Union-Find (DSU)', 'Edge sorting', 'Connectivity validation']
     }
   ];
-
   return (
     <div className="algorithms">
       <div className="algorithms-header">
         <h1>Graph Algorithms</h1>
         <p>Understanding the algorithms powering NAVRA</p>
       </div>
-
       <div className="mode-explanation">
         <h2>Algorithm Selection Strategy</h2>
         <div className="mode-grid">
@@ -63,7 +60,6 @@ const Algorithms = () => {
           </div>
         </div>
       </div>
-
       <div className="algorithms-grid">
         {algos.map((algo, idx) => (
           <motion.div
@@ -94,5 +90,4 @@ const Algorithms = () => {
     </div>
   );
 };
-
 export default Algorithms;
