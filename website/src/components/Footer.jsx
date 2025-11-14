@@ -19,7 +19,7 @@ const Footer=() => {
           <a href="mailto:bhavishyrocker2801@gmail.com" aria-label="Email">
             <Mail size={18} />
           </a>
-          <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" aria-label="Documentation">
+          <a href="https://drive.google.com/file/d/1xb8m9TSb7B9KDL2uwbSaxff_3AtmJXwl/view?usp=sharing" target="_blank" rel="noopener noreferrer" aria-label="Documentation">
             <ExternalLink size={18} />
           </a>
         </div>

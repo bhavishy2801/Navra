@@ -161,7 +161,7 @@ const Optimizer=() => {
               onClick={() => setRouteMode(3)}
               title="Full Campus-MST+DFS+A*"
             >
-              Full
+              Hamiltonian
             </button>
           </div>
           <div className="search-box">
@@ -177,7 +177,7 @@ const Optimizer=() => {
             {routeMode===3 ? (
               <div className="full-mode-message">
                 <MapPin size={48} />
-                <h3>Full Campus Mode</h3>
+                <h3>Hamiltonian Traversal</h3>
                 <p>Click "Compute" to traverse all locations using MST algorithm.</p>
               </div>
             ) : (

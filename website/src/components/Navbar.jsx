@@ -13,7 +13,7 @@ const Navbar = () => {
     { to: '/optimizer', label: 'Optimizer' },
     { to: '/algorithms', label: 'Algorithms' },
     { to: '/about', label: 'About' },
-    { to: 'https://drive.google.com', label: 'Documentation' }
+    { to: 'https://drive.google.com/file/d/1xb8m9TSb7B9KDL2uwbSaxff_3AtmJXwl/view?usp=sharing', label: 'Documentation' }
   ];
   return (
     <nav className="navbar">

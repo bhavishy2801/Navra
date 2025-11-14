@@ -55,7 +55,7 @@ const Algorithms = () => {
             <p>Uses Dijkstra (3+ locations) or A* (2 locations) to follow your selected sequence.</p>
           </div>
           <div className="mode-card">
-            <h3>Mode 3: Full Campus</h3>
+            <h3>Mode 3: Hamiltonian Traversal</h3>
             <p>MST + DFS traversal + A* refinement to visit all reachable campus locations.</p>
           </div>
         </div>

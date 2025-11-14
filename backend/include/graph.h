@@ -1,17 +1,12 @@
 #ifndef GRAPH_H
 #define GRAPH_H
-
 #include <unordered_map>
 #include <vector>
 #include <string>
 #include <map>
-
 #include "attraction.h"
 #include "../include/dsu.h"
-
-
 struct Edge; 
-
 class Graph {
 private:
     std::unordered_map<int, Attraction> attractions;
@@ -22,31 +17,22 @@ private:
 public:
     Graph();
     ~Graph();
-
     void addAttraction(const Attraction& attr);
     void addEdge(int from, int to, double weight);
-
     std::vector<std::pair<int, double>> getNeighbors(int nodeId) const;
     Attraction getAttraction(int id) const;
     double getEdgeWeight(int from, int to) const;
-
     int size() const { return numVertices; }
     std::vector<int> getAllAttractionIds() const;
-
     bool hasAttraction(int id) const;
     int getIdByName(const std::string& name) const;
-
     void loadFromCSV(const std::string& attractionsFile, const std::string& roadsFile);
-
     void buildDSU();
     DSU* getDSU() const { return dsu; }
     int getComponent(int id) const { return dsu ? dsu->find(id) : -1; }
-
     bool isValidAttraction(int id) const;
     bool isFullyConnected() const;
-
     std::vector<Edge> getAllEdges() const;
     int maxNodeId() const;
 };
-
-#endif // GRAPH_H
+#endif
