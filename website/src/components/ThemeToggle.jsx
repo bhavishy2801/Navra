@@ -1,11 +1,9 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { Moon, Sun, Sparkles } from 'lucide-react';
+import { Moon,Sun,Sparkles } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
-
-const ThemeToggle = () => {
-  const { theme, toggleTheme } = useTheme();
-
+const ThemeToggle=() => {
+  const { theme,toggleTheme }=useTheme();
   return (
     <motion.div 
       className="theme-toggle-wrapper"
@@ -20,11 +18,11 @@ const ThemeToggle = () => {
         <motion.div
           className="toggle-slider"
           animate={{
-            x: theme === 'light' ? 0 : 24
+            x: theme==='light'?0:24
           }}
-          transition={{ type: "spring", stiffness: 300, damping: 30 }}
+          transition={{ type: "spring",stiffness: 300,damping: 30 }}
         >
-          {theme === 'light' ? <Sun size={16} /> : <Moon size={16} />}
+          {theme==='light'?<Sun size={16} />:<Moon size={16} />}
         </motion.div>
         <div className="toggle-track">
           <span className="toggle-icon left"><Sun size={14} /></span>
@@ -34,5 +32,4 @@ const ThemeToggle = () => {
     </motion.div>
   );
 };
-
 export default ThemeToggle;

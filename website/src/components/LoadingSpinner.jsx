@@ -1,8 +1,7 @@
 import React from 'react';
 import { Loader2 } from 'lucide-react';
 import '../styles/loading.css';
-
-const LoadingSpinner = () => {
+const LoadingSpinner=() => {
   return (
     <div className="loading-wrapper">
       <Loader2 size={48} className="spinner" />
@@ -11,5 +10,4 @@ const LoadingSpinner = () => {
     </div>
   );
 };
-
 export default LoadingSpinner;

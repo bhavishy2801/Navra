@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom';
 import { ArrowRight, Zap, Route, Navigation, Cpu, Map, Target, Globe } from 'lucide-react';
 import { motion } from 'framer-motion';
 import '../styles/home.css';
-
 const Home = () => {
   const features = [
     {
@@ -27,7 +26,6 @@ const Home = () => {
       desc: 'MST + DFS traversal for complete campus exploration'
     }
   ];
-
   return (
     <div className="home">
       <section className="hero">
@@ -46,17 +44,14 @@ const Home = () => {
             <Zap size={16} />
             <span>Powered by Graph Algorithms</span>
           </motion.div>
-
           <h1 className="hero-title">
             Campus Route
             <span className="gradient-text"> Optimization</span>
           </h1>
-
           <p className="hero-subtitle">
             Navigate IIT Jodhpur campus efficiently with intelligent pathfinding
             using Dijkstra, A*, TSP, and Kruskal's MST algorithms.
           </p>
-
           <div className="hero-actions">
             <Link to="/optimizer" className="btn-primary">
               Start Optimizing
@@ -66,7 +61,6 @@ const Home = () => {
               Learn More
             </Link>
           </div>
-
           <div className="hero-stats">
             <div className="stat">
               <Target className="stat-icon" />
@@ -92,13 +86,11 @@ const Home = () => {
           </div>
         </motion.div>
       </section>
-
       <section className="features">
         <div className="section-header">
           <h2>Key Features</h2>
           <p>Everything you need for optimal campus navigation</p>
         </div>
-
         <div className="features-grid">
           {features.map((feature, idx) => (
             <motion.div
@@ -122,5 +114,4 @@ const Home = () => {
     </div>
   );
 };
-
 export default Home;

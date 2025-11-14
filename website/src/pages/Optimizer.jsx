@@ -1,35 +1,30 @@
-import React, { useState, useEffect } from 'react';
+import React,{ useState,useEffect } from 'react';
 import axios from 'axios';
-import { Play, RotateCcw, MapPin, ArrowRight } from 'lucide-react';
+import { Play,RotateCcw,MapPin,ArrowRight } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import GraphVisualization from '../components/GraphVisualization';
 import '../styles/optimizer.css';
-
-const Optimizer = () => {
-  const { isDark } = useTheme();
-  const [selectedLocations, setSelectedLocations] = useState([]);
-  const [routeMode, setRouteMode] = useState(1);
-  const [result, setResult] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
-  const [search, setSearch] = useState('');
-  const [graphData, setGraphData] = useState(null);
-  const [locations, setLocations] = useState([]);
-
-  // Load CSV data on component mount
+const Optimizer=() => {
+  const { isDark }=useTheme();
+  const [selectedLocations,setSelectedLocations]=useState([]);
+  const [routeMode,setRouteMode]=useState(1);
+  const [result,setResult]=useState(null);
+  const [loading,setLoading]=useState(false);
+  const [error,setError]=useState(null);
+  const [search,setSearch]=useState('');
+  const [graphData,setGraphData]=useState(null);
+  const [locations,setLocations]=useState([]);
   useEffect(() => {
-    const loadCSVData = async () => {
+    const loadCSVData=async () => {
       try {
-        const attractionsResponse = await fetch('/src/assets/attractions.csv');
-        const attractionsText = await attractionsResponse.text();
-        
-        const roadsResponse = await fetch('/src/assets/roads.csv');
-        const roadsText = await roadsResponse.text();
-
-        const attractionLines = attractionsText.trim().split('\n');
-        const attractionData = attractionLines.slice(1)
+        const attractionsResponse=await fetch('/src/assets/attractions.csv');
+        const attractionsText=await attractionsResponse.text();
+        const roadsResponse=await fetch('/src/assets/roads.csv');
+        const roadsText=await roadsResponse.text();
+        const attractionLines=attractionsText.trim().split('\n');
+        const attractionData=attractionLines.slice(1)
           .map(line => {
-            const [name, category, rating, duration, fee, popularity, latitude, longitude] = 
+            const [name,category,rating,duration,fee,popularity,latitude,longitude]=
               line.split(',').map(item => item.trim());
             return {
               name,
@@ -42,17 +37,15 @@ const Optimizer = () => {
               longitude: parseFloat(longitude)
             };
           });
-
-        const roadLines = roadsText.trim().split('\n');
-        const roadData = roadLines.slice(1)
+        const roadLines=roadsText.trim().split('\n');
+        const roadData=roadLines.slice(1)
           .filter(line => !line.startsWith('#') && line.trim())
           .map(line => {
-            const [from, to, time] = line.split(',').map(item => item.trim());
-            return { from, to, time: parseInt(time) };
+            const [from,to,time]=line.split(',').map(item => item.trim());
+            return { from,to,time: parseInt(time) };
           });
-
-        const nodeSet = new Set();
-        const links = roadData.map(road => {
+        const nodeSet=new Set();
+        const links=roadData.map(road => {
           nodeSet.add(road.from);
           nodeSet.add(road.to);
           return {
@@ -61,8 +54,7 @@ const Optimizer = () => {
             value: road.time
           };
         });
-
-        const bidirectionalLinks = [...links];
+        const bidirectionalLinks=[...links];
         links.forEach(link => {
           bidirectionalLinks.push({
             source: link.target,
@@ -70,9 +62,8 @@ const Optimizer = () => {
             value: link.value
           });
         });
-
-        const nodes = Array.from(nodeSet).map(name => {
-          const attraction = attractionData.find(a => a.name === name);
+        const nodes=Array.from(nodeSet).map(name => {
+          const attraction=attractionData.find(a => a.name===name);
           return {
             id: name,
             name: name,
@@ -80,49 +71,40 @@ const Optimizer = () => {
             ...attraction
           };
         });
-
-        setGraphData({ nodes, links: bidirectionalLinks });
+        setGraphData({ nodes,links: bidirectionalLinks });
         setLocations(attractionData.map(a => a.name).sort());
       } catch (err) {
-        console.error('Error loading CSV data:', err);
+        console.error('Error loading CSV data:',err);
         setError('Failed to load graph data from CSV files');
       }
     };
-
     loadCSVData();
-  }, []);
-
-  const filteredLocations = locations.filter(loc =>
+  },[]);
+  const filteredLocations=locations.filter(loc =>
     loc.toLowerCase().includes(search.toLowerCase())
   );
-
-  const handleToggle = (location) => {
-    if (routeMode === 3) return;
-
+  const handleToggle=(location) => {
+    if (routeMode===3) return;
     setSelectedLocations(prev =>
       prev.includes(location)
         ? prev.filter(l => l !== location)
-        : [...prev, location]
+        : [...prev,location]
     );
   };
-
-  const handleCompute = async () => {
-    if (routeMode !== 3 && selectedLocations.length === 0) {
+  const handleCompute=async () => {
+    if (routeMode !== 3 && selectedLocations.length===0) {
       setError('Please select at least one location');
       return;
     }
-
     setLoading(true);
     setError(null);
     setResult(null);
-
     try {
-      const response = await axios.post('http://localhost:5000/api/route', {
+      const response=await axios.post('http://localhost:5000/api/route',{
         choice: routeMode,
-        count: routeMode === 3 ? 0 : selectedLocations.length,
-        locations: routeMode === 3 ? [] : selectedLocations
+        count: routeMode===3 ? 0 : selectedLocations.length,
+        locations: routeMode===3 ? [] : selectedLocations
       });
-
       if (response.data.success) {
         setResult(response.data);
       } else {
@@ -134,77 +116,65 @@ const Optimizer = () => {
       setLoading(false);
     }
   };
-
-  const handleClear = () => {
+  const handleClear=() => {
     setSelectedLocations([]);
     setResult(null);
     setError(null);
   };
-
-  const formatTime = (mins) => {
+  const formatTime=(mins) => {
     if (mins < 60) return `${Math.round(mins)} min`;
-    const h = Math.floor(mins / 60);
-    const m = Math.round(mins % 60);
+    const h=Math.floor(mins / 60);
+    const m=Math.round(mins % 60);
     return `${h}h ${m}m`;
   };
-
-  const isRequestedStop = (name) => {
+  const isRequestedStop=(name) => {
     return result?.routeNames && result.routeNames.includes(name);
   };
-
-  const pathToDisplay = result?.fullPathNames && result.fullPathNames.length > 0 
+  const pathToDisplay=result?.fullPathNames && result.fullPathNames.length > 0 
     ? result.fullPathNames 
     : result?.routeNames || [];
-
   return (
     <div className={`optimizer-page ${isDark ? 'dark' : 'light'}`}>
       <div className="optimizer-container">
-        {/* Sidebar */}
         <div className="sidebar">
           <div className="sidebar-header">
             <h2>Route Optimizer</h2>
-            <span className="badge">{routeMode === 3 ? 'All' : selectedLocations.length}</span>
+            <span className="badge">{routeMode===3 ? 'All' : selectedLocations.length}</span>
           </div>
-
-          {/* Mode Selector */}
           <div className="mode-selector">
             <button
-              className={`mode-btn ${routeMode === 1 ? 'active' : ''}`}
+              className={`mode-btn ${routeMode===1 ? 'active' : ''}`}
               onClick={() => setRouteMode(1)}
-              title="Flexible Order - TSP Algorithm"
+              title="Flexible Order-TSP Algorithm"
             >
               Flexible
             </button>
             <button
-              className={`mode-btn ${routeMode === 2 ? 'active' : ''}`}
+              className={`mode-btn ${routeMode===2 ? 'active' : ''}`}
               onClick={() => setRouteMode(2)}
-              title="Fixed Order - Dijkstra's Algorithm"
+              title="Fixed Order-Dijkstra's Algorithm"
             >
               Fixed
             </button>
             <button
-              className={`mode-btn ${routeMode === 3 ? 'active' : ''}`}
+              className={`mode-btn ${routeMode===3 ? 'active' : ''}`}
               onClick={() => setRouteMode(3)}
-              title="Full Campus - MST + DFS + A*"
+              title="Full Campus-MST+DFS+A*"
             >
               Full
             </button>
           </div>
-
-          {/* Search */}
           <div className="search-box">
             <input
               type="text"
               placeholder="Search locations..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              disabled={routeMode === 3}
+              disabled={routeMode===3}
             />
           </div>
-
-          {/* Locations List */}
           <div className="locations-list">
-            {routeMode === 3 ? (
+            {routeMode===3 ? (
               <div className="full-mode-message">
                 <MapPin size={48} />
                 <h3>Full Campus Mode</h3>
@@ -212,9 +182,8 @@ const Optimizer = () => {
               </div>
             ) : (
               filteredLocations.map((location) => {
-                const isSelected = selectedLocations.includes(location);
-                const order = selectedLocations.indexOf(location) + 1;
-
+                const isSelected=selectedLocations.includes(location);
+                const order=selectedLocations.indexOf(location)+1;
                 return (
                   <div
                     key={location}
@@ -231,13 +200,11 @@ const Optimizer = () => {
               })
             )}
           </div>
-
-          {/* Actions */}
           <div className="sidebar-actions">
             <button
               className="btn-compute"
               onClick={handleCompute}
-              disabled={loading || (routeMode !== 3 && selectedLocations.length === 0)}
+              disabled={loading || (routeMode !== 3 && selectedLocations.length===0)}
             >
               <Play size={18} />
               Compute
@@ -251,8 +218,6 @@ const Optimizer = () => {
             </button>
           </div>
         </div>
-
-        {/* Main Content */}
         <div className="main-area">
           {loading && (
             <div className="status-overlay">
@@ -263,7 +228,6 @@ const Optimizer = () => {
               </div>
             </div>
           )}
-
           {error && !loading && (
             <div className="status-overlay">
               <div className="status-box error-box">
@@ -274,20 +238,15 @@ const Optimizer = () => {
               </div>
             </div>
           )}
-
           {result && !loading && !error ? (
             <div className="result-layout">
-              {/* Graph Visualization - Better Height */}
               <div className="graph-section">
                 <GraphVisualization 
                   routePath={result.fullPathNames || result.routeNames} 
                   graphData={graphData} 
                 />
               </div>
-
-              {/* Result Panel */}
               <div className="result-panel">
-                {/* Stats Header */}
                 <div className="result-header">
                   <div className="success-badge">
                     <span className="success-icon">✓</span>
@@ -296,7 +255,6 @@ const Optimizer = () => {
                       <p>{result.algorithm}</p>
                     </div>
                   </div>
-                  
                   <div className="stats-grid">
                     <div className="stat-item">
                       <span className="stat-label">Time</span>
@@ -312,26 +270,22 @@ const Optimizer = () => {
                     </div>
                   </div>
                 </div>
-
-                {/* Path Display */}
                 <div className="result-body">
                   <div className="path-header">
                     <h4>Complete Route Path</h4>
                     <span className="path-count">{pathToDisplay.length} nodes</span>
                   </div>
-                  
                   <div className="path-horizontal-scroll">
                     <div className="path-horizontal">
-                      {pathToDisplay.map((name, idx) => {
-                        const isRequested = isRequestedStop(name);
-                        const isStart = idx === 0;
-                        const isEnd = idx === pathToDisplay.length - 1;
-
+                      {pathToDisplay.map((name,idx) => {
+                        const isRequested=isRequestedStop(name);
+                        const isStart=idx===0;
+                        const isEnd=idx===pathToDisplay.length-1;
                         return (
                           <React.Fragment key={`${idx}-${name}`}>
                             <div className={`path-node ${isRequested ? 'requested' : 'intermediate'}`}>
                               <div className={`node-circle ${isRequested ? 'requested' : ''}`}>
-                                {idx + 1}
+                                {idx+1}
                               </div>
                               <div className="node-info">
                                 <span className="node-name">{name}</span>
@@ -345,8 +299,7 @@ const Optimizer = () => {
                                 </div>
                               </div>
                             </div>
-                            
-                            {idx < pathToDisplay.length - 1 && (
+                            {idx < pathToDisplay.length-1 && (
                               <div className="path-arrow">
                                 <ArrowRight size={20} strokeWidth={2.5} />
                               </div>
@@ -363,13 +316,13 @@ const Optimizer = () => {
             <div className="empty-state">
               <GraphVisualization routePath={[]} graphData={graphData} />
               <div className="empty-overlay">
-                <MapPin size={64} strokeWidth={1.5} />
+                {/* <MapPin size={64} strokeWidth={1.5} />
                 <h3>Ready to Optimize</h3>
                 <p>
-                  {routeMode === 3 
+                  {routeMode===3 
                     ? 'Click "Compute" to traverse the entire campus' 
                     : 'Select locations and click "Compute"'}
-                </p>
+                </p> */}
               </div>
             </div>
           )}
@@ -378,5 +331,4 @@ const Optimizer = () => {
     </div>
   );
 };
-
 export default Optimizer;

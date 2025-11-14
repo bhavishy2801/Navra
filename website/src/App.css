@@ -6,7 +6,6 @@
   --danger: #ef4444;
   --warning: #f59e0b;
   
-  /* Light Theme */
   --bg-primary: #ffffff;
   --bg-secondary: #f8fafc;
   --bg-tertiary: #f1f5f9;
@@ -16,12 +15,10 @@
   --border: #e2e8f0;
   --shadow: rgba(0, 0, 0, 0.1);
   
-  /* Glass Effect */
   --glass-bg: rgba(255, 255, 255, 0.7);
   --glass-border: rgba(255, 255, 255, 0.3);
   --glass-shadow: rgba(0, 0, 0, 0.1);
   
-  /* Gradients */
   --gradient-primary: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   --gradient-secondary: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
   --gradient-accent: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
@@ -82,7 +79,6 @@ body {
   z-index: 1;
 }
 
-/* Animated Background */
 .animated-background {
   position: fixed;
   top: 0;
@@ -106,7 +102,6 @@ body {
   opacity: 0.08;
 }
 
-/* Glass Card Component */
 .glass-card {
   background: var(--glass-bg);
   backdrop-filter: blur(20px) saturate(180%);
@@ -117,7 +112,6 @@ body {
   transition: all 0.3s ease;
 }
 
-/* Navbar Enhanced */
 .navbar {
   position: fixed;
   top: 0;
@@ -219,7 +213,6 @@ body {
   background: var(--gradient-primary);
 }
 
-/* Home Hero Section Enhanced */
 .hero-section {
   text-align: center;
   padding: 6rem 2rem;
@@ -360,7 +353,6 @@ body {
   letter-spacing: 0.05em;
 }
 
-/* Features Grid Enhanced */
 .features-section {
   max-width: 1400px;
   margin: 0 auto 4rem;
@@ -411,7 +403,6 @@ body {
   line-height: 1.7;
 }
 
-/* Optimizer Page Enhanced */
 .optimizer-container {
   max-width: 1600px;
   margin: 0 auto;
@@ -489,7 +480,6 @@ body {
   border-left: 3px solid var(--primary);
 }
 
-/* Location Selector Enhanced */
 .location-selector {
   margin: 2rem 0;
 }
@@ -576,7 +566,6 @@ body {
   box-shadow: 0 4px 12px rgba(59, 130, 246, 0.4);
 }
 
-/* Buttons Enhanced */
 .action-buttons {
   display: flex;
   gap: 1rem;
@@ -623,7 +612,6 @@ body {
   border-color: var(--primary);
 }
 
-/* Route Display Enhanced */
 .route-display {
   border-radius: var(--radius-xl);
   overflow: hidden;
@@ -702,7 +690,6 @@ body {
   margin-top: 0.5rem;
 }
 
-/* Loading Spinner */
 .loading-spinner {
   display: flex;
   flex-direction: column;
@@ -725,7 +712,6 @@ body {
   to { transform: rotate(360deg); }
 }
 
-/* CTA Section */
 .cta-section {
   max-width: 1200px;
   margin: 4rem auto;
@@ -762,7 +748,6 @@ body {
   box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
-/* Responsive */
 @media (max-width: 1024px) {
   .optimizer-content {
     grid-template-columns: 1fr;

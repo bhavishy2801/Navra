@@ -4,19 +4,17 @@ import { Map, Menu, X, Sun, Moon } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useTheme } from '../context/ThemeContext';
 import '../styles/navbar.css';
-
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const { pathname } = useLocation();
   const { isDark, toggleTheme } = useTheme();
-
   const links = [
     { to: '/', label: 'Home' },
     { to: '/optimizer', label: 'Optimizer' },
     { to: '/algorithms', label: 'Algorithms' },
-    { to: '/about', label: 'About' }
+    { to: '/about', label: 'About' },
+    { to: 'https://drive.google.com', label: 'Documentation' }
   ];
-
   return (
     <nav className="navbar">
       <div className="navbar-container">
@@ -26,7 +24,6 @@ const Navbar = () => {
           </div>
           <span className="brand-text">NAVRA</span>
         </Link>
-
         <div className="navbar-center">
           {links.map(link => (
             <Link
@@ -38,7 +35,6 @@ const Navbar = () => {
             </Link>
           ))}
         </div>
-
         <div className="navbar-actions">
           <button className="theme-toggle" onClick={toggleTheme} aria-label="Toggle theme">
             <motion.div
@@ -49,13 +45,11 @@ const Navbar = () => {
               {isDark ? <Moon size={18} /> : <Sun size={18} />}
             </motion.div>
           </button>
-
           <button className="mobile-toggle" onClick={() => setIsOpen(!isOpen)}>
             {isOpen ? <X size={24} /> : <Menu size={24} />}
           </button>
         </div>
       </div>
-
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -81,5 +75,4 @@ const Navbar = () => {
     </nav>
   );
 };
-
 export default Navbar;
