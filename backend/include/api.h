@@ -12,6 +12,8 @@ struct ApiResult {
     std::vector<int> routeIds;
     int stopCount;
     std::string errorMessage;
+    std::vector<int> fullPath;
+    std::vector<std::string> fullPathNames;
 };
 
 // For choices 1 & 2 (TSP or Dijkstra)

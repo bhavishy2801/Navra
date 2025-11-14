@@ -87,6 +87,8 @@ int main() {
                 out["routeIds"] = result.routeIds;
                 out["routeNames"] = result.routeNames;
                 out["stopCount"] = result.stopCount;
+                out["fullPath"] = result.fullPath;
+                out["fullPathNames"] = result.fullPathNames;
             }
             cout << out.dump() << endl;
             cout.flush();
@@ -109,6 +111,8 @@ int main() {
             out["routeIds"] = result.routeIds;
             out["routeNames"] = result.routeNames;
             out["stopCount"] = result.stopCount;
+            out["fullPath"] = result.fullPath;
+            out["fullPathNames"] = result.fullPathNames;
         }
         cout << out.dump() << endl;
         cout.flush();

@@ -76,8 +76,15 @@ ApiResult runOptimizerAPI(
     result.routeIds = r.attractionIds;
     result.stopCount = r.attractionIds.size();
 
+    // Build route names for requested stops
     for (int id : r.attractionIds) {
         result.routeNames.push_back(graph.getAttraction(id).name);
+    }
+
+    // Build full path with intermediate nodes
+    result.fullPath = r.fullPath;
+    for (int id : r.fullPath) {
+        result.fullPathNames.push_back(graph.getAttraction(id).name);
     }
 
     return result;
@@ -106,8 +113,15 @@ ApiResult runFullGraphTraversal(Graph& graph) {
     result.routeIds = r.attractionIds;
     result.stopCount = r.attractionIds.size();
 
+    // Build route names for requested stops
     for (int id : r.attractionIds) {
         result.routeNames.push_back(graph.getAttraction(id).name);
+    }
+
+    // Build full path with intermediate nodes
+    result.fullPath = r.fullPath;
+    for (int id : r.fullPath) {
+        result.fullPathNames.push_back(graph.getAttraction(id).name);
     }
 
     return result;
