@@ -29,13 +29,11 @@ vector<int> aStarPath(const Graph& g,int start,int goal) {
         Attraction ga=g.getAttraction(goal);
     if (sa.latitude==0 && sa.longitude==0) return {};
     if (ga.latitude==0 && ga.longitude==0) return {};
-// Heuristic: estimate distance from current node to goal using harversine(calculatres geogrpahic distance on earth with lat,long)
-
+// Heuristic: estimate distance from current node to goal using harversine(calculates geographic distance on earth with lat,long)
     unordered_map<int,double> gscore;
     unordered_map<int,double> fscore;
     unordered_map<int,int> cameFrom;
     unordered_set<int> closed;
-
     auto heuristic=[&](int node) {//the heuristic function(A* is dijkstra with heuristic)
         Attraction a=g.getAttraction(node);
         return haversine(a.latitude,a.longitude,ga.latitude,ga.longitude)/1000.0;
@@ -44,11 +42,10 @@ vector<int> aStarPath(const Graph& g,int start,int goal) {
     gscore[start]=0.0;
     fscore[start]=heuristic(start);
     pq.push({start,fscore[start]});
-
     while (!pq.empty()) {
         AStarNode cur=pq.top(); pq.pop();
         int u=cur.id;
-        if (u==goal) {
+        if (u==goal){
             vector<int> path;
             int x=goal;
             while (cameFrom.find(x)!=cameFrom.end()) {
