@@ -6,7 +6,8 @@
 using namespace std;
 
 vector<Edge> kruskalMST(vector<Edge>& edges, int n) {
-    sort(edges.begin(), edges.end(), [](const Edge& a, const Edge& b){ return a.weight < b.weight; });
+    sort(edges.begin(), edges.end(), [](const Edge& a, const Edge& b)
+    { return a.weight < b.weight; });
     DSU dsu(n);
     vector<Edge> mst;
     for (size_t i = 0; i < edges.size(); ++i) {
@@ -15,8 +16,8 @@ vector<Edge> kruskalMST(vector<Edge>& edges, int n) {
         if (dsu.unite(edges[i].u, edges[i].v)) {
             mst.push_back(edges[i]);
             if ((int)mst.size() == n-1) break;
+            }
         }
-    }
     return mst;
 }
 
@@ -27,7 +28,7 @@ void dfsPreorder(int node, const vector<vector<int>>& adj, vector<bool>& visited
         int v = adj[node][i];
         if (v < 0 || v >= (int)adj.size()) continue;
         if (!visited[v]) dfsPreorder(v, adj, visited, tour);
-    }
+        }
 }
 
 vector<int> mstToTour(const vector<Edge>& mst, int n, int start) {

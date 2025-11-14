@@ -6,7 +6,6 @@
 #include <unordered_set>
 #include <cmath>
 #include <vector>
-
 #ifndef M_PI
 #define M_PI 3.14159265358979323846
 #endif
@@ -26,12 +25,11 @@ double haversine(double lat1, double lon1, double lat2, double lon2) {
 
 struct AStarNode { int id; double f; };
 struct AStarCompare { bool operator()(const AStarNode& a, const AStarNode& b) const { return a.f > b.f; } };
-
 vector<int> aStarPath(const Graph& g, int start, int goal) {
     // Basic A* — returns empty vector if heuristic or nodes not present or no path
     if (!g.isValidAttraction(start) || !g.isValidAttraction(goal)) return {};
-    Attraction sa = g.getAttraction(start);
-    Attraction ga = g.getAttraction(goal);
+        Attraction sa = g.getAttraction(start);
+        Attraction ga = g.getAttraction(goal);
     if (sa.latitude == 0 && sa.longitude == 0) return {};
     if (ga.latitude == 0 && ga.longitude == 0) return {};
 
@@ -59,7 +57,7 @@ vector<int> aStarPath(const Graph& g, int start, int goal) {
             while (cameFrom.find(x) != cameFrom.end()) {
                 path.push_back(x);
                 x = cameFrom[x];
-            }
+                }
             path.push_back(start);
             reverse(path.begin(), path.end());
             return path;

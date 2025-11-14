@@ -15,7 +15,7 @@ void Graph::addAttraction(const Attraction& attr) {
     attractions[attr.id] = attr;
     if (!attr.name.empty()) nameToId[attr.name] = attr.id;
     if (adjList.find(attr.id) == adjList.end())
-        adjList[attr.id] = std::vector<std::pair<int,double>>();
+        adjList[attr.id] = vector<pair<int,double>>();
     numVertices = (int)attractions.size();
 }
 
@@ -27,7 +27,7 @@ void Graph::addEdge(int from, int to, double weight) {
     adjList[to].push_back({from, weight});
 }
 
-std::vector<std::pair<int,double>> Graph::getNeighbors(int nodeId) const {
+vector<pair<int,double>> Graph::getNeighbors(int nodeId) const {
     auto it = adjList.find(nodeId);
     if (it == adjList.end()) return {};
     return it->second;
@@ -46,18 +46,18 @@ double Graph::getEdgeWeight(int from, int to) const {
     return numeric_limits<double>::infinity();
 }
 
-std::vector<int> Graph::getAllAttractionIds() const {
-    std::vector<int> ids;
+vector<int> Graph::getAllAttractionIds() const {
+    vector<int> ids;
     ids.reserve(attractions.size());
     for (auto &kv : attractions) ids.push_back(kv.first);
     return ids;
-}
+ }
 
 bool Graph::hasAttraction(int id) const {
     return attractions.find(id) != attractions.end();
 }
 
-int Graph::getIdByName(const std::string& name) const {
+int Graph::getIdByName(const string& name) const {
     auto it = nameToId.find(name);
     if (it == nameToId.end()) return -1;
     return it->second;
@@ -96,16 +96,18 @@ void Graph::buildDSU() {
         for (auto &p : kv.second) {
             int v = p.first;
             if (v >= 0) dsu->unite(u, v);
+            }
         }
-    }
 }
 
 // CSV loader expecting attractions.csv header: name,category,rating,duration,fee,popularity,latitude,longitude
 // and roads.csv header: from,to,time (names)
-void Graph::loadFromCSV(const std::string& attractionsFile, const std::string& roadsFile) {
+void Graph::loadFromCSV(const string& attractionsFile, const string& roadsFile) {
     attractions.clear();
     adjList.clear();
     nameToId.clear();
+    //above 3 lines are required to CLEAR any
+    //old stored nodes/adj lists from prior,so cleared every single time(important)
     numVertices = 0;
     if (dsu) { delete dsu; dsu = nullptr; }
 
@@ -114,7 +116,7 @@ void Graph::loadFromCSV(const std::string& attractionsFile, const std::string& r
         cerr << "[graph] cannot open attractions file: " << attractionsFile << "\n";
         return;
     }
-
+    //catches error just in case file cannot be opened
     string line;
     // read header
     if (!getline(aif, line)) { aif.close(); return; }
@@ -126,7 +128,6 @@ void Graph::loadFromCSV(const std::string& attractionsFile, const std::string& r
         Attraction at;
         at.id = nextId++;
         string latS, lonS, ratingS, durationS, feeS, popS;
-
         getline(ss, at.name, ',');
         getline(ss, at.category, ',');
         getline(ss, ratingS, ',');
@@ -155,7 +156,6 @@ void Graph::loadFromCSV(const std::string& attractionsFile, const std::string& r
         buildDSU();
         return;
     }
-
     if (!getline(rif, line)) { rif.close(); buildDSU(); return; } // header
     while (getline(rif, line)) {
         if (line.empty()) continue;
@@ -171,26 +171,24 @@ void Graph::loadFromCSV(const std::string& attractionsFile, const std::string& r
         if (u != -1 && v != -1) addEdge(u, v, w);
     }
     rif.close();
-
     buildDSU();
 }
-
-std::vector<Edge> Graph::getAllEdges() const {
-    std::vector<Edge> edges;
-    std::unordered_map<long long, bool> seen;
+vector<Edge> Graph::getAllEdges() const {
+    vector<Edge> edges;
+    unordered_map<long long, bool> seen;
     for (auto &kv : adjList) {
         int u = kv.first;
         for (auto &p : kv.second) {
             int v = p.first;
             double w = p.second;
-            int a = std::min(u, v), b = std::max(u, v);
+            int a =min(u, v),b =max(u, v);
             long long key = ((long long)a << 32) | (unsigned long long)b;
             if (!seen[key]) {
                 Edge e; e.u = a; e.v = b; e.weight = w;
                 edges.push_back(e);
                 seen[key] = true;
             }
-        }
-    }
+           }
+       }
     return edges;
 }

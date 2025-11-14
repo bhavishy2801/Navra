@@ -14,25 +14,25 @@ extern pair<vector<double>, vector<int>> dijkstraWithPath(const Graph& g, int st
 RouteResult RouteOptimizer::computeFullGraphRoute() {
     RouteResult res;
     res.algorithm = "Kruskal + DFS + A*";
-
-    vector<int> nodes = graph.getAllAttractionIds();
-    if (nodes.empty()) { res.algorithm += " (Empty)"; return res; }
+    vector<int> nodes = graph.getAllAttractionIds();//attractions(i.e the locations{per PS.})
+    if (nodes.empty()){ res.algorithm+=" (Empty)"; return res; }
     DSU* dsu = graph.getDSU();
-    if (!dsu) { res.algorithm += " (No DSU)"; return res; }
+    if (!dsu) { res.algorithm+=" (No DSU)"; return res; }
 
     int root = dsu->find(nodes[0]);
-    for (int id : nodes) if (dsu->find(id) != root) { res.algorithm += " (Graph not connected)"; return res; }
+    for (int id : nodes) if (dsu->find(id)!=root) {res.algorithm += " (Graph not connected)"; return res; }
 
     vector<Edge> edges = graph.getAllEdges();
     int maxId = graph.maxNodeId();
-    vector<Edge> mst = kruskalMST(edges, maxId + 1);
-    int startNode = *min_element(nodes.begin(), nodes.end());
-    vector<int> tour = mstToTour(mst, maxId + 1, startNode);
+    vector<Edge> mst = kruskalMST(edges,maxId+1);
+    int startNode = *min_element(nodes.begin(),nodes.end());
+    vector<int> tour = mstToTour(mst,maxId+1,startNode);
 
     unordered_set<int> seen;
     vector<int> finalOrder;
     for (int id : tour) {
-        if (graph.isValidAttraction(id) && !seen.count(id)) { finalOrder.push_back(id); seen.insert(id); }
+        if (graph.isValidAttraction(id) && !seen.count(id)) { 
+            finalOrder.push_back(id); seen.insert(id);}
     }
 
     double total = 0;
@@ -40,12 +40,12 @@ RouteResult RouteOptimizer::computeFullGraphRoute() {
         int u = finalOrder[i], v = finalOrder[i+1];
         vector<int> path = aStarPath(graph, u, v);
         if (path.empty()) {
-            double seg = dijkstraWithPath(graph, u).first[v];
+            double seg = dijkstraWithPath(graph,u).first[v];
             if (seg == numeric_limits<double>::infinity()) res.algorithm += " (Unreachable)"; else total += seg;
         } else {
-            for (size_t k = 0; k + 1 < path.size(); ++k) {
+            for (size_t k=0;k+1< path.size();++k) {
                 double seg = dijkstraWithPath(graph, path[k]).first[path[k+1]];
-                if (seg == numeric_limits<double>::infinity()) res.algorithm += " (Unreachable)"; else total += seg;
+                if (seg==numeric_limits<double>::infinity()) res.algorithm += " (Unreachable)"; else total += seg;
             }
         }
     }
