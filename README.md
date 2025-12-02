@@ -5,21 +5,21 @@
 ---
 
 ## Table of Contents
-- [Overview](#-overview)
-- [Features](#-features)
-- [System Architecture](#-system-architecture)
-- [Algorithms Implemented](#-algorithms-implemented)
-- [Installation](#-installation)
-- [Usage Guide](#-usage-guide)
-- [Input Format](#-input-format)
-- [Example Scenarios](#-example-scenarios)
-- [Performance](#-performance)
-- [Project Structure](#-project-structure)
-- [Future Enhancements](#-future-enhancements)
-- [Contributing](#-contributing)
-- [License](#-license)
-- [Acknowledgments](#-acknowledgments)
-- [Contact & Support](#-contact--support)
+- [Overview](#overview)
+- [Features](#features)
+- [System Architecture](#system-architecture)
+- [Algorithms Implemented](#algorithms-implemented)
+- [Installation](#installation)
+- [Usage Guide](#usage-guide)
+- [Input Format](#input-format)
+- [Example Scenarios](#example-scenarios)
+- [Performance](#performance)
+- [Project Structure](#project-structure)
+- [Future Enhancements](#future-enhancements)
+- [Contributing](#contributing)
+- [License](#license)
+- [Acknowledgments](#acknowledgments)
+- [Contact & Support](#contact--support)
 
 ---
 
